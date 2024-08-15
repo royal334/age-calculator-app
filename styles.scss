@@ -1,0 +1,163 @@
+$Purple: hsl(259, 100%, 65%);
+$Lightred: hsl(0, 100%, 67%);
+$White: hsl(0, 0%, 100%);
+$Offwhite: hsl(0, 0%, 94%);
+$Lightgrey: hsl(0, 0%, 86%);
+$Smokeygrey: hsl(0, 1%, 44%);
+$Offblack: hsl(0, 0%, 8%);
+
+@font-face{
+     src:url(./assets/fonts/Poppins-BoldItalic.ttf);
+     font-family:Poppins-BoldItalic;
+}
+
+@font-face{
+     src:url(./assets/fonts/Poppins-Regular.ttf);
+     font-family: Poppins-Regular;
+}
+
+*{
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+}
+
+body{
+     background-color: $Offwhite;
+}
+
+
+.container{
+    width: 600px;
+    height: 430px;
+     position: absolute;
+     left: 50%;
+     top: 50%;
+     transform: translate(-50%, -50%);
+     background-color: $White;
+     border-radius:20px 20px 120px 20px ;
+     padding: 20px;
+
+   
+}
+
+.times{
+     display: flex;
+     justify-content:space-between;
+     width: 70%;  
+}
+
+h1{
+     font-size: 16px;
+     color: $Smokeygrey;
+     font-family: Poppins-Regular;
+     
+}
+
+.inputs{
+     display: flex;
+     justify-content: space-between;
+     width: 70%;
+}
+
+input{
+     font-size: 32px;
+     width: 25%;
+     border-radius: 3px;
+     border: 3px solid $Lightgrey;
+     &:hover{
+          border-color: $Purple;
+          cursor: pointer;
+     }     
+}
+
+// To remove the arrow in the inputs
+input[type=number]::-webkit-inner-spin-button{
+     display: none;    
+}
+
+
+.error{
+     height: 10px;
+     width: 70%;
+     margin-top: 10px;
+     display: flex;
+     justify-content: space-between;
+    
+     p{
+          text-align: left;
+          color: $Lightred;
+          font-size: 12px;
+          font-family: Poppins-Regular;
+     }
+}
+
+
+.flex{
+     width: 100%;
+     display: flex;
+     margin: 0;
+     justify-content: space-between;
+}
+
+img{
+     background-color: $Purple;
+     padding: 20px;
+     border-radius: 50%;
+     &:hover{background-color: $Offblack;
+          cursor: pointer;
+          }
+}
+
+p{
+     font-size: 50px;
+     font-family: Poppins-BoldItalic;
+}
+
+.line{background-color: $Lightgrey;
+     height: 2px;
+     width: 90%;
+     margin-top: 30px;
+     border-radius: 50px;
+}
+
+
+
+.dash{
+     color: $Purple;
+}
+
+@media (max-width:560px) {
+     .container{
+          width: 95vw;
+          padding-right: 0px;
+     }
+     
+     .times{
+          width: 100%;
+          padding: 0px 20px 0px 0px;
+     }
+
+     .line{
+          width: 100%;
+     }
+     img{
+          height: 70px;
+          position: relative;
+          right: 180px;
+          &:hover{
+               background-color: $Purple;
+          }
+     }
+
+     .error{
+          width: 100%;
+          padding:0px 10px 0px 0px;
+          margin: 10px;
+     }
+
+     .inputs{
+          width: 95%;
+     }
+    
+}
