@@ -1,110 +1,82 @@
-const day=document.getElementById("day")
-const month=document.getElementById("month");
-const year=document.getElementById("year");
-const date= new Date();
-const currentDay=date.getDate();
-const currentMonth=date.getMonth()+1;
-const currentYear=date.getFullYear(); 
+function calculateAge() {
+    // Get input values
+    const dayInput = document.getElementById('day').value;
+    const monthInput = document.getElementById('month').value;
+    const yearInput = document.getElementById('year').value;
 
+    // Clear previous error messages
+    document.getElementById('day-error').textContent = '';
+    document.getElementById('month-error').textContent = '';
+    document.getElementById('year-error').textContent = '';
 
+    // Validate inputs
+    if (!isValidDate(dayInput, monthInput, yearInput)) {
+        return;
+    }
 
-const dashYear=document.getElementById("dash-year");
-const dashMonth=document.getElementById("dash-month");
-const dashDays= document.getElementById("dash-days")
+    // Get current date
+    const currentDate = new Date();
+    const birthDate = new Date(yearInput, monthInput - 1, dayInput); // month is 0-based
 
+    // Calculate differences
+    let years = currentDate.getFullYear() - birthDate.getFullYear();
+    let months = currentDate.getMonth() - birthDate.getMonth();
+    let days = currentDate.getDate() - birthDate.getDate();
 
-const dayError=document.getElementById("day-error");
-const monthError=document.getElementById("month-error");
-const yearError=document.getElementById("year-error");
+    // Adjust for negative days
+    if (days < 0) {
+        months--;
+        // Get the number of days in the previous month
+        const lastMonthDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 0);
+        days += lastMonthDate.getDate();
+    }
 
+    // Adjust for negative months
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
 
-function calculateAge(){
-     errorFunction();
-     dashYear.innerHTML=currentYear-year.value;
-     dashMonth.innerHTML=currentMonth-month.value;
-     
-
-     if(dashMonth.innerHTML<0){
-          dashYear.innerHTML-=1;
-          dashMonth.innerHTML=currentMonth+(12-month.value);
-     }
-
- 
-     else if(day.value<currentDay){
-          dashDays.innerHTML=currentDay
-     }
-     else if(day.value>currentDay){
-          dashDays.innerHTML=day.value-currentDay;
-     }
-   
-     
-     
+    // Update the display
+    document.getElementById('dash-year').textContent = years;
+    document.getElementById('dash-month').textContent = months;
+    document.getElementById('dash-days').textContent = days;
 }
 
-function errorFunction(){
+function isValidDate(day, month, year) {
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
+    let isValid = true;
 
-   
-     if(day.value>31){
-          day.style.borderColor="hsl(0, 100%, 67%)";
-          month.style.borderColor="hsl(0, 100%, 67%)";
-          year.style.borderColor="hsl(0, 100%, 67%)"
-          dayError.innerHTML="Must be a valid day";
-          dashDays.innerHTML="--";
-          dashMonth.innerHTML="--";
-          dashYear.innerHTML="--";
-          
-     }
-     else if(month.value>12){
-          month.style.borderColor="hsl(0, 100%, 67%)";
-          monthError.innerHTML="Must be a valid month";
-          dashDays.innerHTML="--";
-          dashMonth.innerHTML="--";
-          dashYear.innerHTML="--";
-
-     }
-     else if(year.value>currentYear){
-          year.style.borderColor="hsl(0, 100%, 67%)"
-          yearError.innerHTML="Must be in the past";
-          dashDays.innerHTML==="--";
-          dashMonth.innerHTML==="--";
-          dashYear.innerHTML==="--";
-
-     }
-     else if(day.value===""||month.value===""||year.value===""){
-          day.style.borderColor="hsl(0, 100%, 67%)";
-          dayError.innerHTML="This field is required";
-          month.style.borderColor="hsl(0, 100%, 67%)";
-          monthError.innerHTML="This field is required";
-          year.style.borderColor="hsl(0, 100%, 67%)";
-          yearError.innerHTML="This field is required";
-          dashDays.innerHTML="--";
-          dashMonth.innerHTML="--";
-          dashYear.innerHTML="--";
-
-     }
-    else if(day.value=" "){
-     dayError.innerHTML=""
-     day.style.borderColor="hsl(0, 0%, 86%)";
-    }
-    else if(month.value=" "){
-     monthError.innerHTML="";
-     year.style.borderColor="hsl(0, 0%, 86%)";
-    }
- 
-    else if(year.value=" "){
-     yearError.innerHTML="";
-     year.style.borderColor="hsl(0, 0%, 86%)";
+    // Check if date is valid
+    if (day < 1 || day > 31) {
+        document.getElementById('day-error').textContent = 'Must be a valid day';
+        isValid = false;
     }
 
-    else if(month.value===2 &&day.value>28 && year.value%4 !==0){
-     dayError.innerHTML="Must be a valid day";
-     day.style.borderColor="hsl(0, 100%, 67%)";
-     month.style.borderColor="hsl(0, 100%, 67%)";
-     dashDays.innerHTML="--";
-     dashMonth.innerHTML="--";
-     dashYear.innerHTML="--";
+    if (month < 1 || month > 12) {
+        document.getElementById('month-error').textContent = 'Must be a valid month';
+        isValid = false;
     }
 
+    if (year > currentDate.getFullYear()) {
+        document.getElementById('year-error').textContent = 'Must be in the past';
+        isValid = false;
+    }
+
+    // Check if date actually exists (handles cases like February 31st)
+    if (inputDate.getMonth() !== month - 1) {
+        document.getElementById('day-error').textContent = 'Must be a valid date';
+        isValid = false;
+    }
+
+    // Check if date is in the future
+    if (inputDate > currentDate) {
+        document.getElementById('year-error').textContent = 'Must be in the past';
+        isValid = false;
+    }
+
+    return isValid;
 }
 
 
@@ -115,4 +87,5 @@ document.addEventListener("keydown", (e) => {
      else{
           
      }})
+
 
